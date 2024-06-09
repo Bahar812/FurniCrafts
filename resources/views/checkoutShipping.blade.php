@@ -19,13 +19,13 @@
                         <nav class="d-none d-md-block">
                             <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
                                 <li class="me-4"><a class="nav-link-checkout"
-                                    href="{{ URL('/cart') }}">Your Cart</a></li>
+                                    >Your Cart</a></li>
                             <li class="me-4"><a class="nav-link-checkout"
-                                    href="{{ URL('/checkout') }}">Information</a></li>
+                                >Information</a></li>
                             <li class="me-4"><a class="nav-link-checkout active"
-                                    href="{{ URL('/checkoutshipping') }}">Shipping</a></li>
+                                    >Shipping</a></li>
                             <li><a class="nav-link-checkout nav-link-last "
-                                    href="{{ URL('/checkoutpayment') }}">Payment</a></li>
+                                    >Payment</a></li>
                             </ul>
                         </nav>                        <div class="mt-5">
                             <!-- Checkout Information Summary -->
@@ -33,129 +33,138 @@
                                 <li class="list-group-item d-flex justify-content-between align-items-center">
                                     <div class="d-flex justify-content-start align-items-center">
                                         <span class="text-muted small me-2 f-w-36 fw-bolder">Contact</span>
-                                        <span class="small">test@email.com</span>
+                                        <span class="small">{{ $userByUuid->email }}</span>
                                     </div>
-                                    <a href="./checkout.html" class="text-muted small" role="button">Change</a>
+                                    {{-- <a href="./checkout.html" class="text-muted small" role="button">Change</a> --}}
                                 </li>
                             </ul><!-- / Checkout Information Summary-->
 
                             <!-- Checkout Panel Information-->
                             <h3 class="fs-5 fw-bolder mb-4 border-bottom pb-4">Shipping Method</h3>
-
+                            <form action="{{ URL('/checkoutshipping') }}" method="post">
+                                @csrf
+                                {{-- <input type="hidden" name="selectedCourier" id="selectedCourier" value=""> --}}
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                      <label for="state" class="form-label">Courier</label>
+                                      <select class="form-select" id="courier"  name="selectedCourier"  required="">
+                                        <option value="jne">JNE</option>
+                                        <option value="pos">POS</option>
+                                        <option value="tiki">TIKI</option>
+                                      </select>
+                                    </div>
+                                  </div>
                             <!-- Shipping Option-->
-                            <div class="form-check form-group form-check-custom form-radio-custom form-radio-highlight mb-3">
+                            {{-- <div class="form-check form-group form-check-custom form-radio-custom form-radio-highlight mb-3">
                               <input class="form-check-input" type="radio" name="checkoutShippingMethod" id="checkoutShippingMethodOne" checked>
                               <label class="form-check-label" for="checkoutShippingMethodOne">
                                 <span class="d-flex justify-content-between align-items-start">
                                   <span>
-                                    <span class="mb-0 fw-bolder d-block">Click & Collect Shipping</span>
-                                    <small class="fw-bolder">Collect from our Surabaya store</small>
+                                    <span class="mb-0 fw-bolder d-block">JNE</span>
+                                    <small class="fw-bolder">Jalur Nugraha Ekakurir</small>
                                   </span>
-                                  <span class="small fw-bolder text-uppercase">Free</span>
+
                                 </span>
                               </label>
-                            </div>
+                            </div> --}}
 
                             <!-- Shipping Option-->
-                            <div class="form-check form-group form-check-custom form-radio-custom form-radio-highlight mb-3">
+                            {{-- <div class="form-check form-group form-check-custom form-radio-custom form-radio-highlight mb-3">
                               <input class="form-check-input" type="radio" name="checkoutShippingMethod" id="checkoutShippingMethodTwo">
                               <label class="form-check-label" for="checkoutShippingMethodTwo">
                                 <span class="d-flex justify-content-between align-items-start">
                                   <span>
-                                    <span class="mb-0 fw-bolder d-block">JNE Next Day</span>
-                                    <small class="fw-bolder">For all orders placed before 1pm Monday to Thursday</small>
+                                    <span class="mb-0 fw-bolder d-block">POS</span>
+                                    <small class="fw-bolder">POS Indonesia</small>
                                   </span>
-                                  <span class="small fw-bolder text-uppercase">Rp 75,000</span>
+
+
                                 </span>
                               </label>
-                            </div>
+                            </div> --}}
+
 
                             <!-- Shipping Option-->
-                            <div class="form-check form-group form-check-custom form-radio-custom form-radio-highlight mb-3">
+                            {{-- <div class="form-check form-group form-check-custom form-radio-custom form-radio-highlight mb-3">
                               <input class="form-check-input" type="radio" name="checkoutShippingMethod" id="checkoutShippingMethodThree">
                               <label class="form-check-label" for="checkoutShippingMethodThree">
                                 <span class="d-flex justify-content-between align-items-start">
                                   <span>
-                                    <span class="mb-0 fw-bolder d-block">J&T Priority Service</span>
-                                    <small class="fw-bolder">24 - 36 hour delivery</small>
+                                    <span class="mb-0 fw-bolder d-block">TIKI</span>
+                                    <small class="fw-bolder">Citra Van Titipan Kilat</small>
                                   </span>
-                                  <span class="small fw-bolder text-uppercase">Rp 95,000</span>
+
                                 </span>
                               </label>
-                            </div>
+                            </div> --}}
 
                             <div class="pt-5 mt-5 pb-5 border-top d-flex flex-column flex-md-row justify-content-between align-items-center">
                               <a href="./checkout.html" class="btn ps-md-0 btn-link fw-bolder w-100 w-md-auto mb-2 mb-md-0" role="button">Back to information</a>
-                              <a href="./checkout-payment.html" class="btn btn-dark w-100 w-md-auto" role="button">Proceed to payment</a>
+                              {{-- <a href="{{ URL('/checkoutshipping/process') }}" class="btn btn-dark w-100 w-md-auto" role="button">Proceed to payment</a> --}}
+                              <button type="submit" class="btn btn-dark w-100 w-md-auto">Proceed to payment</button>
                             </div>
+                        </form>
                         </div>
                     </div>
                 </div>
                 <div class="col-12 col-lg-5 bg-light pt-lg-10 aside-checkout pb-5 pb-lg-0 my-5 my-lg-0">
                     <div class="p-4 py-lg-0 pe-lg-0 ps-lg-5">
                         <div class="pb-3">
-                             <!-- Cart Item-->
-                             <div class="row mx-0 py-4 g-0 border-bottom">
-                                <div class="col-2 position-relative">
-                                        <span class="checkout-item-qty">3</span>
-                                    <picture class="d-block border">
-                                        <img class="img-fluid" src="{{ URL('https://www.atria.co.id/surabaya/wp-content/uploads/2023/03/leben-manager-desk-16-12.jpg') }}" alt="FurniCrafts">
-                                    </picture>
-                                </div>
-                                <div class="col-9 offset-1">
-                                    <div>
-                                        <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                            FurniCrafts Meja Kerja Manager Leben 1608 Mocha Oak
-                                            <i class="ri-close-line ms-3"></i>
-                                        </h6>
-                                    </div>
-                                    <p class="fw-bolder text-end text-muted m-0">Rp 3,536,100</p>
-                                </div>
-                            </div>    <!-- / Cart Item-->
-                            <!-- Cart Item-->
+                            @foreach($cartDetails as $cartDetail)
                             <div class="row mx-0 py-4 g-0 border-bottom">
                                 <div class="col-2 position-relative">
-                                        <span class="checkout-item-qty">3</span>
+                                    <span class="checkout-item-qty">{{ $cartDetail->qty }}</span>
                                     <picture class="d-block border">
-                                        <img class="img-fluid" src="{{URL('https://www.atria.co.id/surabaya/wp-content/uploads/2023/03/Dimite-Low-Chair-1-12-12.jpg')}}" alt="FurniCrafts">
+                                        <img class="img-fluid" src="{{ $cartDetail->product->Img_Detail_1 }}" alt="{{ $cartDetail->product->Nama_Product }}">
                                     </picture>
                                 </div>
                                 <div class="col-9 offset-1">
                                     <div>
                                         <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                            FurniCrafts Kursi Kantor Decano Lumbar Support
+                                            {{ $cartDetail->product->Nama_Product }}
                                             <i class="ri-close-line ms-3"></i>
                                         </h6>
                                     </div>
-                                    <p class="fw-bolder text-end text-muted m-0">Rp 1,487,200</p>
-                                </div>
-                            </div>    <!-- / Cart Item-->
+                                    <p class="fw-bolder text-end text-muted m-0">Rp {{ number_format($cartDetail->subTotal, 0, ',', '.') }}</p>
+                                                                </div>
+                            </div>
+                            @endforeach
                         </div>
                         <div class="py-4 border-bottom">
                             <div class="d-flex justify-content-between align-items-center mb-2">
-                                <p class="m-0 fw-bolder fs-6">Subtotal</p>
-                                <p class="m-0 fs-6 fw-bolder">Rp 5,023,300</p>
+                                {{-- <p class="m-0 fw-bolder fs-6">Subtotal</p> --}}
+                                {{-- <p class="m-0 fs-6 fw-bolder">Rp {{ number_format($total, 0, ',', '.') }}</p> --}}
                             </div>
-                            <div class="d-flex justify-content-between align-items-center ">
+                            {{-- <div id="shipping-cost" class="d-flex justify-content-between align-items-center ">
                                 <p class="m-0 fw-bolder fs-6">Shipping</p>
-                                <p class="m-0 fs-6 fw-bolder">Rp 45,987</p>
-                            </div>
+                                <p id="shipping-cost-value" class="m-0 fs-6 fw-bolder">
+                                    @if($costs)
+    @foreach($costs as $cost)
+        @if($cost['service'] === 'REG')
+            Rp {{ $cost['cost'][0]['value'] }}
+        @endif
+    @endforeach
+@else
+    Rp 0
+@endif
+                                </p>
+                            </div> --}}
                         </div>
                         <div class="py-4 border-bottom">
                             <div class="d-flex justify-content-between">
                                 <div>
-                                    <p class="m-0 fw-bold fs-5">Grand Total</p>
-                                    <span class="text-muted small">Inc Rp 135,000 sales tax</span>
+                                    <p class="m-0 fw-bold fs-5">Total</p>
+                                    {{-- <span class="text-muted small">Inc Rp 135,000 sales tax</span> --}}
                                 </div>
-                                <p class="m-0 fs-5 fw-bold">Rp 5,073,387</p>
+                                <p class="m-0 fs-5 fw-bold">Rp {{ number_format($total, 0, ',', '.') }}</p>
                             </div>
                         </div>
-                        <div class="py-4">
+                        {{-- <div class="py-4">
                             <div class="input-group mb-0">
                                 <input type="text" class="form-control" placeholder="Enter your coupon code">
                                 <button class="btn btn-dark btn-sm px-4">Apply</button>
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
             </div>
@@ -164,11 +173,54 @@
     </section>
     <!-- / Main Section-->
 
-
-    <!-- Theme JS -->
     <!-- Vendor JS -->
     <script src="./assets/js/vendor.bundle.js"></script>
 
     <!-- Theme JS -->
     <script src="./assets/js/theme.bundle.js"></script>
+
+    {{-- <script>
+        // Fungsi untuk memperbarui biaya pengiriman ketika memilih kurir
+        function updateShippingCost() {
+            // Mendapatkan nilai kurir yang dipilih dari elemen select
+            var selectedCourier = document.getElementById('courier').value;
+
+            // Kirim permintaan AJAX untuk menghitung biaya pengiriman
+            fetch('/calculate-shipping-cost', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ selectedCourier: selectedCourier })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Memperbarui tampilan dengan biaya pengiriman yang diambil dari respons JSON
+                var shippingCost = data.shipping_cost;
+
+// Periksa apakah shippingCost telah diinisialisasi dan bukan null atau undefined
+if (shippingCost !== null && shippingCost !== undefined) {
+    // Periksa apakah shippingCost memiliki metode toLocaleString
+    if (typeof shippingCost.toLocaleString === 'function') {
+        // Jika ya, perbarui nilai shipping-cost-value
+        document.getElementById('shipping-cost-value').textContent = 'Rp ' + shippingCost.toLocaleString();
+    } else {
+        console.error('shippingCost does not have toLocaleString method');
+    }
+} else {
+    console.error('shippingCost is null or undefined');
+}
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+
+        // Memanggil fungsi updateShippingCost() ketika memilih opsi kurir
+        document.getElementById('courier').addEventListener('change', updateShippingCost);
+
+        // Memanggil fungsi updateShippingCost() untuk pertama kali saat halaman dimuat
+        updateShippingCost();
+    </script> --}}
 </body>

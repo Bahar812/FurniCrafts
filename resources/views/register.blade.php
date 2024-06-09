@@ -1,62 +1,118 @@
 @include("components.head")
 
-<body class=" bg-light">
-
-    <!-- Main Section-->
-    <section
-        class="mt-0 overflow-hidden  vh-100 d-flex justify-content-center align-items-center p-4">
-        <!-- Page Content Goes Here -->
-
-        <!-- Login Form-->
-        <div class="col col-md-8 col-lg-6 col-xxl-5">
-            <!-- Logo-->
-            <a class="navbar-brand fw-bold fs-3 flex-shrink-0 order-0 align-self-center justify-content-center d-flex mx-0 px-0" href="./index.html">
-                <div class="d-flex align-items-center">
-                    <svg class="f-w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 77.53 72.26"><path d="M10.43,54.2h0L0,36.13,10.43,18.06,20.86,0H41.72L10.43,54.2Zm67.1-7.83L73,54.2,68.49,62,45,48.47,31.29,72.26H20.86l-5.22-9L52.15,0H62.58l5.21,9L54.06,32.82,77.53,46.37Z" fill="currentColor" fill-rule="evenodd"/></svg>
+<body class="">
+<section class="h-100">
+    <div class="container h-100">
+        <div class="row justify-content-sm-center h-100">
+            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+                <div class="text-center my-5">
+                    {{-- <img src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="logo" width="100"> --}}
                 </div>
-            </a>
-            <!-- / Logo-->
-            <div class="shadow-xl p-4 p-lg-5 bg-white">
-                <h1 class="text-center mb-5 fs-2 fw-bold">Open Account</h1>
-                <a href="#" class="btn btn-facebook d-block mb-2"><i class="ri-facebook-circle-fill align-bottom"></i> Login
-                    with Facebook</a>
-                <a href="#" class="btn btn-twitter d-block mb-2"><i class="ri-twitter-fill align-bottom"></i> Login with
-                    Twitter</a>
-                <span class="text-muted text-center d-block fw-bolder my-4">OR</span>
-                <form>
-                    <div class="form-group">
-                      <label class="form-label" for="register-fname">First name</label>
-                      <input type="text" class="form-control" id="register-fname" placeholder="Enter your first name">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <h1 class="fs-4 card-title fw-bold mb-4">Register</h1>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+                        <form method="POST" action="{{ URL('/register') }}" class="needs-validation" novalidate="" autocomplete="off">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="name">Name</label>
+                                <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autofocus>
+                                <div class="invalid-feedback">
+                                    Name is required
+                                </div>
+                                @error('name')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="email">E-Mail Address</label>
+                                <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required>
+                                <div class="invalid-feedback">
+                                    Email is invalid
+                                </div>
+                                @error('email')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="password">Password</label>
+                                <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required>
+                                <div class="invalid-feedback">
+                                    Password is required
+                                </div>
+                                @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                @enderror
+                            </div>
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="password-confirm">Confirm Password</label>
+                                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
+                            </div>
+                            <p class="form-text text-muted mb-3">
+                                By registering you agree with our terms and condition.
+                            </p>
+                            <div class="align-items-center d-flex">
+                                <button type="submit" class="btn btn-primary ms-auto">
+                                    Register
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                      <label class="form-label" for="register-lname">Last name</label>
-                      <input type="text" class="form-control" id="register-lname" placeholder="Enter your last name">
+                    <div class="card-footer py-3 border-0">
+                        <div class="text-center">
+                            Already have an account? <a href="{{ URL('/login') }}" class="text-dark">Login</a>
+                        </div>
                     </div>
-                    <div class="form-group">
-                      <label class="form-label" for="register-email">Email address</label>
-                      <input type="email" class="form-control" id="register-email" placeholder="name@email.com">
-                    </div>
-                    <div class="form-group">
-                      <label class="form-label" for="register-password">Password</label>
-                      <input type="password" class="form-control" id="register-password" placeholder="Enter your password">
-                    </div>
-                    <button type="submit" class="btn btn-dark d-block w-100 my-4">Sign Up</button>
-                  </form>
-                  <p class="d-block text-center text-muted">Already registered? <a class="text-muted" href="./login.html">Login here.</a></p>
+                </div>
+                {{-- <div class="text-center mt-5 text-muted">
+                    Copyright &copy; 2017-2021 &mdash; Your Company
+                </div> --}}
             </div>
-
         </div>
-        <!-- / Login Form-->
+    </div>
+</section>
 
-        <!-- /Page Content -->
-    </section>
-    <!-- / Main Section-->
+<!-- Theme JS -->
+<!-- Vendor JS -->
+<script src="{{ asset('assets/js/vendor.bundle.js') }}"></script>
+<!-- Theme JS -->
+<script src="{{ asset('assets/js/theme.bundle.js') }}"></script>
 
-
-    <!-- Theme JS -->
-    <!-- Vendor JS -->
-    <script src="./assets/js/vendor.bundle.js"></script>
-
-    <!-- Theme JS -->
-    <script src="./assets/js/theme.bundle.js"></script>
+<!-- Initialize Bootstrap validation -->
+<script>
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
 </body>

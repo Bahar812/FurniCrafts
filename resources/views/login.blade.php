@@ -1,57 +1,93 @@
 @include("components.head")
 
-<body class=" bg-light">
-
-    <!-- Main Section-->
-    <section
-        class="mt-0 overflow-hidden  vh-100 d-flex justify-content-center align-items-center p-4">
-        <!-- Page Content Goes Here -->
-
-        <!-- Login Form-->
-        <div class="col col-md-8 col-lg-6 col-xxl-5">
-            <!-- Logo-->
-            <a class="navbar-brand fw-bold fs-3 flex-shrink-0 order-0 align-self-center justify-content-center d-flex mx-0 px-0" href="./index.html">
-                <div class="d-flex align-items-center">
-                    <svg class="f-w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 77.53 72.26"><path d="M10.43,54.2h0L0,36.13,10.43,18.06,20.86,0H41.72L10.43,54.2Zm67.1-7.83L73,54.2,68.49,62,45,48.47,31.29,72.26H20.86l-5.22-9L52.15,0H62.58l5.21,9L54.06,32.82,77.53,46.37Z" fill="currentColor" fill-rule="evenodd"/></svg>
+<body class="">
+<section class="h-100">
+    <div class="container h-100">
+        <div class="row justify-content-sm-center h-100">
+            <div class="col-xxl-4 col-xl-5 col-lg-5 col-md-7 col-sm-9">
+                <div class="text-center my-5">
+                    {{-- <img src="https://getbootstrap.com/docs/5.0/assets/brand/bootstrap-logo.svg" alt="logo" width="100"> --}}
                 </div>
-            </a>
-            <!-- / Logo-->
-            <div class="shadow-xl p-4 p-lg-5 bg-white">
-                <h1 class="text-center fw-bold mb-5 fs-2">Login</h1>
-                <a href="#" class="btn btn-facebook d-block mb-2"><i class="ri-facebook-circle-fill align-bottom"></i> Login
-                    with Facebook</a>
-                <a href="#" class="btn btn-twitter d-block mb-2"><i class="ri-twitter-fill align-bottom"></i> Login with
-                    Twitter</a>
-                <span class="text-muted text-center d-block fw-bolder my-4">OR</span>
-                <form>
-                    <div class="form-group">
-                      <label class="form-label" for="login-email">Email address</label>
-                      <input type="email" class="form-control" id="login-email" placeholder="name@email.com">
+                <div class="card shadow-lg">
+                    <div class="card-body p-5">
+                        <h1 class="fs-4 card-title fw-bold mb-4">Login</h1>
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
+                        <form method="POST" action="{{ URL('/login') }}" class="needs-validation" novalidate="" autocomplete="off">
+                            @csrf
+                            <div class="mb-3">
+                                <label class="mb-2 text-muted" for="email">E-Mail Address</label>
+                                <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
+                                <div class="invalid-feedback">
+                                    Email is invalid
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="mb-2 w-100">
+                                    <label class="text-muted" for="password">Password</label>
+                                    <a href="/forgot" class="float-end">
+                                        Forgot Password?
+                                    </a>
+                                </div>
+                                <input id="password" type="password" class="form-control" name="password" required>
+                                <div class="invalid-feedback">
+                                    Password is required
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <div class="form-check">
+                                    <input type="checkbox" name="remember" id="remember" class="form-check-input">
+                                    <label for="remember" class="form-check-label">Remember Me</label>
+                                </div>
+                                <button type="submit" class="btn btn-primary ms-auto">
+                                    Login
+                                </button>
+                            </div>
+                        </form>
                     </div>
-                    <div class="form-group">
-                      <label for="login-password" class="form-label d-flex justify-content-between align-items-center">
-                        Password
-                        <a href="./forgotten-password.html" class="text-muted small">Forgot your password?</a>
-                      </label>
-                      <input type="password" class="form-control" id="login-password" placeholder="Enter your password">
+                    <div class="card-footer py-3 border-0">
+                        <div class="text-center">
+                            Don't have an account? <a href="/register" class="text-dark">Create One</a>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-dark d-block w-100 my-4">Login</button>
-                </form>
-                <p class="d-block text-center text-muted">New customer? <a class="text-muted" href="{{ URL('/register') }}">Sign up for an account</a></p>
+                </div>
+                {{-- <div class="text-center mt-5 text-muted">
+                    Copyright &copy; 2017-2021 &mdash; Your Company
+                </div> --}}
             </div>
-
         </div>
-        <!-- / Login Form-->
+    </div>
+</section>
 
-        <!-- /Page Content -->
-    </section>
-    <!-- / Main Section-->
+<!-- Theme JS -->
+<!-- Vendor JS -->
+<script src="{{ asset('assets/js/vendor.bundle.js') }}"></script>
+<!-- Theme JS -->
+<script src="{{ asset('assets/js/theme.bundle.js') }}"></script>
 
-
-    <!-- Theme JS -->
-    <!-- Vendor JS -->
-    <script src="./assets/js/vendor.bundle.js"></script>
-
-    <!-- Theme JS -->
-    <script src="./assets/js/theme.bundle.js"></script>
+<!-- Initialize Bootstrap validation -->
+<script>
+    (function () {
+        'use strict';
+        window.addEventListener('load', function () {
+            var forms = document.getElementsByClassName('needs-validation');
+            var validation = Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault();
+                        event.stopPropagation();
+                    }
+                    form.classList.add('was-validated');
+                }, false);
+            });
+        }, false);
+    })();
+</script>
 </body>

@@ -27,6 +27,11 @@ return [
     'resend' => [
         'key' => env('RESEND_KEY'),
     ],
+    'http' => [
+    'curl' => [
+        CURLOPT_CAINFO => base_path('C:\xampp\apache\bin\cacert.pem'),
+    ],
+],
 
     'slack' => [
         'notifications' => [

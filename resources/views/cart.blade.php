@@ -1,71 +1,53 @@
 @include("components.header")
 
 <body class="">
-
     <!-- Main Section-->
-    <section class="mt-0 overflow-lg-hidden  vh-lg-100">
+    <section class="mt-0 overflow-lg-hidden vh-lg-100">
         <!-- Page Content Goes Here -->
         <div class="container">
             <div class="row g-0 vh-lg-100">
                 <div class="col-12 col-lg-7 pt-5 pt-lg-10">
                     <div class="pe-lg-5">
-                        <!-- Logo-->
-                        <a class="navbar-brand fw-bold fs-3 flex-shrink-0 mx-0 px-0" href="./index.html">
-                                <div class="d-flex align-items-center">
-                                    <svg class="f-w-7" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 77.53 72.26"><path d="M10.43,54.2h0L0,36.13,10.43,18.06,20.86,0H41.72L10.43,54.2Zm67.1-7.83L73,54.2,68.49,62,45,48.47,31.29,72.26H20.86l-5.22-9L52.15,0H62.58l5.21,9L54.06,32.82,77.53,46.37Z" fill="currentColor" fill-rule="evenodd"/></svg>
-                                </div>
-                            </a>
-                        <!-- / Logo-->
-                        <nav class="d-none d-md-block">
-                            <ul class="list-unstyled d-flex justify-content-start mt-4 align-items-center fw-bolder small">
-                                <li class="me-4"><a class="nav-link-checkout active"
-                                        href="{{ URL('/cart') }}">Your Cart</a></li>
-                                <li class="me-4"><a class="nav-link-checkout "
-                                        href="{{ URL('/checkout') }}">Information</a></li>
-                                <li class="me-4"><a class="nav-link-checkout "
-                                        href="{{ URL('/checkoutshipping') }}">Shipping</a></li>
-                                <li><a class="nav-link-checkout nav-link-last "
-                                        href="{{ URL('/checkoutpayment') }}">Payment</a></li>
-                            </ul>
-                        </nav>                        <div class="mt-5">
+                        <!-- Logo dan navigasi -->
+
+                        <div class="mt-0">
                             <h3 class="fs-5 fw-bolder mb-0 border-bottom pb-4">Your Cart</h3>
                             <div class="table-responsive">
                                 <table class="table align-middle">
                                     <tbody class="border-0">
-                                        <!-- Cart Item-->
-                                        <div class="row mx-0 py-4 g-0 border-bottom">
-                                            <div class="col-2 position-relative">
-                                                <picture class="d-block border">
-                                                    <img class="img-fluid" src="{{ URL('https://www.atria.co.id/surabaya/wp-content/uploads/2023/03/leben-manager-desk-16-12.jpg') }}" alt="FurniCrafts">
-                                                </picture>
-                                            </div>
-                                            <div class="col-9 offset-1">
-                                                <div>
-                                                    <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                        FurniCrafts Meja Kerja Manager Leben 1608 Mocha Oak
-                                                        <i class="ri-close-line ms-3"></i>
-                                                    </h6>
-                                                </div>
-                                                <p class="fw-bolder text-end text-muted m-0">Rp 3,536,100</p>
-                                            </div>
-                                        </div>                                        <!-- / Cart Item-->
-                                        <!-- Cart Item-->
-                                        <div class="row mx-0 py-4 g-0 border-bottom">
-                                            <div class="col-2 position-relative">
-                                                <picture class="d-block border">
-                                                    <img class="img-fluid" src="{{URL('https://www.atria.co.id/surabaya/wp-content/uploads/2023/03/Dimite-Low-Chair-1-12-12.jpg')}}" alt="FurniCrafts">
-                                                </picture>
-                                            </div>
-                                            <div class="col-9 offset-1">
-                                                <div>
-                                                    <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                        FurniCrafts Kursi Kantor Decano Lumbar Support
-                                                        <i class="ri-close-line ms-3"></i>
-                                                    </h6>
-                                                </div>
-                                                <p class="fw-bolder text-end text-muted m-0">Rp 1,487,200</p>
-                                            </div>
-                                        </div>                                        <!-- / Cart Item-->
+                                        @if($cart && $cart->cartDetails->count() > 0)
+                                            @foreach($cart->cartDetails as $cartDetail)
+                                                <!-- Cart Item-->
+                                                <tr id="cartItem_{{ $cartDetail->uuid }}" class="mx-0 py-4 g-0 border-bottom">
+                                                    <td class="col-2 position-relative">
+                                                        <picture class="d-block border">
+                                                            <img class="img-fluid" src="{{ URL($cartDetail->product->Img_Detail_1) }}" alt="FurniCrafts">
+                                                        </picture>
+                                                    </td>
+                                                    <td class="col-7">
+                                                        <div>
+                                                            <h6 class="justify-content-between d-flex align-items-start mb-2">
+                                                                {{ $cartDetail->product->Nama_Product }}
+                                                                <button type="button" class="btn btn-dark btn-sm rounded-circle p-1" onclick="deleteCartItem('{{ $cartDetail->uuid }}')">
+                                                                    <i class="ri-close-line"></i>
+                                                                </button>
+                                                            </h6>
+                                                            <div class="input-group mb-3">
+                                                                <button type="button" class="btn btn-outline-secondary" onclick="updateQuantity('{{ $cartDetail->uuid }}', -1)">-</button>
+                                                                <p class="form-control text-center m-0" style="border: none; background: none;">{{ $cartDetail->qty }}</p>
+                                                                <button type="button" class="btn btn-outline-secondary" onclick="updateQuantity('{{ $cartDetail->uuid }}', 1)">+</button>
+                                                            </div>
+                                                        </div>
+                                                        <p class="fw-bolder text-end text-muted m-0">Rp {{ number_format($cartDetail->subTotal, 2, ',', '.') }}</p>
+                                                    </td>
+                                                </tr>
+                                                <!-- / Cart Item-->
+                                            @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan="3" class="text-center">Your cart is empty.</td>
+                                            </tr>
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -77,19 +59,14 @@
                         <div class="pb-4 border-bottom">
                             <div class="d-flex flex-column flex-md-row justify-content-md-between mb-4 mb-md-2">
                                 <div>
-                                    <p class="m-0 fw-bold fs-5">Grand Total</p>
-                                    <span class="text-muted small">Inc Rp 135,000 sales tax</span>
+                                    <p class="m-0 fw-bold fs-5">Total</p>
+                                    {{-- <span class="text-muted small">Inc Rp 135,000 sales tax</span> --}}
                                 </div>
-                                <p class="m-0 fs-5 fw-bold">Rp 5,023,300</p>
+                                <p class="m-0 fs-5 fw-bold">Rp {{ isset($cart->total) ? number_format($cart->total, 2, ',', '.') : '0,00' }}</p>
                             </div>
                         </div>
-                        <div class="py-4">
-                            <div class="input-group mb-0">
-                                <input type="text" class="form-control" placeholder="Enter coupon code">
-                                <button class="btn btn-secondary btn-sm px-4">Apply</button>
-                            </div>
-                        </div>
-                        <a href="{{ URL('/checkout') }}" class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>                    </div>
+                        <a href="{{ URL('/checkout') }}" class="btn btn-dark w-100 text-center" role="button">Proceed to checkout</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -99,9 +76,62 @@
 
     <!-- Theme JS -->
     <!-- Vendor JS -->
-
-    <script src="{{ asset('assets/js/vendor.bundle.js')}}"></script>
-
+    <script src="{{ asset('assets/js/vendor.bundle.js') }}"></script>
     <!-- Theme JS -->
     <script src="{{ asset('assets/js/theme.bundle.js') }}"></script>
+
+    <script>
+        function deleteCartItem(cartDetailId) {
+            if (confirm('Are you sure you want to delete this item?')) {
+                fetch(`/cart/delete-item`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    body: JSON.stringify({
+                        cartDetailId: cartDetailId
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if(data.success) {
+                        const deletedCartItem = document.getElementById(`cartItem_${cartDetailId}`);
+                        if (deletedCartItem) {
+                            deletedCartItem.remove();
+                            location.reload();
+                        } else {
+                            console.error('Deleted cart item not found in DOM.');
+                        }
+                    } else {
+                        alert(data.message);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            }
+        }
+
+        function updateQuantity(cartDetailId, change) {
+            fetch(`/cart/update-quantity`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({
+                    cartDetailId: cartDetailId,
+                    change: change
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if(data.success) {
+                    location.reload();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 </body>

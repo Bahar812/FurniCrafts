@@ -31,7 +31,7 @@
 
                         <!-- Navbar Search-->
                         <li class="d-none d-sm-block">
-                            <span class="nav-link text-body search-trigger cursor-pointer">Search</span>
+                            {{-- <span class="nav-link text-body search-trigger cursor-pointer">Search</span> --}}
 
                             <!-- Search navbar overlay-->
                             <div class="navbar-search d-none">
@@ -53,9 +53,18 @@
 
                         <!-- Navbar Login-->
                         <li class="ms-1 d-none d-lg-inline-block">
-                            <a class="nav-link text-body" href="{{ URL('/login') }}">
-                                Account
-                            </a>
+                            @auth
+                                <a class="nav-link text-body" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    Logout
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
+                                    @csrf
+                                </form>
+                            @else
+                                <a class="nav-link text-body" href="{{ URL('/login') }}">
+                                    Account
+                                </a>
+                            @endauth
                         </li>
                         <!-- /Navbar Login-->
 
@@ -63,13 +72,13 @@
                         <li class="ms-1 d-inline-block position-relative dropdown-cart">
                             <button class="nav-link me-0 disable-child-pointer border-0 p-0 bg-transparent text-body"
                                 type="button">
-                                Cart (2)
+                                Cart ({{ $cartItemCount }})
                             </button>
                             <div class="cart-dropdown dropdown-menu">
 
                                 <!-- Cart Header-->
                                 <div class="d-flex justify-content-between align-items-center border-bottom pt-3 pb-4">
-                                    <h6 class="fw-bolder m-0">Cart Summary (2 items)</h6>
+                                    <h6 class="fw-bolder m-0">Cart Summary ({{ $cartItemCount }} items)</h6>
                                     {{-- <i class="ri-close-circle-line text-muted ri-lg cursor-pointer btn-close-cart"></i> --}}
                                 </div>
                                 <!-- / Cart Header-->
@@ -78,42 +87,28 @@
                                 <div>
 
                                     <!-- Cart Product-->
-                                    <div class="row mx-0 py-4 g-0 border-bottom">
-                                        <div class="col-2 position-relative">
-                                            <picture class="d-block ">
-                                                <img class="img-fluid" src="{{ URL('https://www.atria.co.id/surabaya/wp-content/uploads/2023/03/leben-manager-desk-16-12.jpg') }}" alt="FurniCrafts">
-                                            </picture>
-                                        </div>
-                                        <div class="col-9 offset-1">
-                                            <div>
-                                                <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                    FurniCrafts Meja Kerja Manager Leben 1608 Mocha Oak
-                                                    {{-- <i class="ri-close-line ms-3"></i> --}}
-                                                </h6>
-                                                <span class="d-block text-muted fw-bolder text-uppercase fs-9">Qty: 1</span>
+                                    <div>
+                                        @foreach($cartDetails as $item)
+                                            <!-- Cart Product-->
+                                            <div class="row mx-0 py-4 g-0 border-bottom">
+                                                <div class="col-2 position-relative">
+                                                    <picture class="d-block ">
+                                                        <img class="img-fluid" src="{{ URL($item->product->Img_Detail_1) }}" alt="{{ $item->product->name }}">
+                                                    </picture>
+                                                </div>
+                                                <div class="col-9 offset-1">
+                                                    <div>
+                                                        <h6 class="justify-content-between d-flex align-items-start mb-2">
+                                                            {{ $item->product->name }}
+                                                        </h6>
+                                                        <span class="d-block text-muted fw-bolder text-uppercase fs-9">Qty: {{ $item->qty }}</span>
+                                                    </div>
+                                                    <p class="fw-bolder text-end text-muted m-0">{{ number_format($item->subTotal, 0, ',', '.') }}</p>
+                                                </div>
                                             </div>
-                                            <p class="fw-bolder text-end text-muted m-0">Rp 3,536,100</p>
-                                        </div>
+                                            <!-- /Cart Product-->
+                                        @endforeach
                                     </div>
-                                    <!-- Cart Product-->
-                                    <div class="row mx-0 py-4 g-0 border-bottom">
-                                        <div class="col-2 position-relative">
-                                            <picture class="d-block ">
-                                                <img class="img-fluid" src="{{URL('https://www.atria.co.id/surabaya/wp-content/uploads/2023/03/Dimite-Low-Chair-1-12-12.jpg')}}" alt="FurniCrafts">
-                                            </picture>
-                                        </div>
-                                        <div class="col-9 offset-1">
-                                            <div>
-                                                <h6 class="justify-content-between d-flex align-items-start mb-2">
-                                                    FurniCrafts Kursi Kantor Decano Lumbar Support
-                                                    {{-- <i class="ri-close-line ms-3"></i> --}}
-                                                </h6>
-                                                <span class="d-block text-muted fw-bolder text-uppercase fs-9">Qty: 1</span>
-                                            </div>
-                                            <p class="fw-bolder text-end text-muted m-0">Rp 1,487,200</p>
-                                        </div>
-                                    </div>
-                                </div>
                                 <!-- /Cart Items-->
 
                                 <!-- Cart Summary-->
@@ -122,9 +117,9 @@
                                         <div class="d-flex flex-column flex-md-row justify-content-md-between align-items-md-start mb-4 mb-md-2">
                                             <div>
                                                 <p class="m-0 fw-bold fs-5">Grand Total</p>
-                                                <span class="text-muted small">Inc Rp 135,000 sales tax</span>
+                                                {{-- <span class="text-muted small">Inc Rp 135,000 sales tax</span> --}}
                                             </div>
-                                            <p class="m-0 fs-5 fw-bold">Rp 5,023,300</p>
+                                            <p class="m-0 fs-5 fw-bold">{{ number_format($cartTotal, 0, ',', '.') }}</p>
                                         </div>
                                     </div>
                                     <a href="{{ URL('/cart') }}" class="btn btn-outline-dark w-100 text-center mt-4" role="button">View Cart</a>
@@ -147,29 +142,29 @@
                         <!-- Menu-->
                         <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                             <li class="nav-item">
-                              <a class="nav-link" href="{{ URL('/product') }}" role="button">
+                              <a class="nav-link" href="{{ URL('/productRuangKerja') }}" role="button">
                                 Office
                               </a>
                             <li class="nav-item">
-                                <a class="nav-link" href="{{ URL('/product') }}"  role="button" >
+                                <a class="nav-link" href="{{ URL('/productRuangDapur') }}"  role="button" >
                                   Kitchen & Dining Room
                                 </a>
                               </li>
                               <li class="nav-item">
-                                <a class="nav-link" href="{{ URL('/product') }}" role="button">
+                                <a class="nav-link" href="{{ URL('/productRuangTamu') }}" role="button">
                                   Living Room
                                 </a>
                               </li>
                               <li class="nav-item">
-                                <a class="nav-link" href="{{ URL('/product') }}" role="button">
+                                <a class="nav-link" href="{{ URL('/productRuangTidur') }}" role="button">
                                   Bedroom
                                 </a>
                               </li>
-                              <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="{{ URL('/product') }}"role="button">
+{{-- <li class="nav-item dropdown">
+                                <                              a class="nav-link dropdown-toggle" href="{{ URL('/productAccessories') }}"role="button">
                                   Accessories
-                                </a>
-                              </li>
+                                </>
+                              </li> --}}
                           </ul>                    <!-- / Menu-->
 
                     </div>

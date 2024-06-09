@@ -43,7 +43,7 @@
               <div
                 class="container position-relative z-index-10 d-flex h-100 align-items-start flex-column justify-content-center">
                 <p class="title-small text-white opacity-75 mb-0" data-swiper-parallax="-100">Everything You Need</p>
-                <h2 class="display-3 tracking-wide fw-bold text-uppercase tracking-wide text-white" data-swiper-parallax="100">
+                <h2 class="display-3  fw-bold text-uppercase  text-white" data-swiper-parallax="100">
                   <span class="text-outline-light">Summer</span> Essentials</h2>
                 <div data-swiper-parallax-y="-25">
                   <a href="./category.html" class="btn btn-psuedo text-white" role="button">Shop New Arrivals</a>
