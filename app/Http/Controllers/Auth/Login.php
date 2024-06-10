@@ -89,8 +89,8 @@ class Login extends Controller
      */
     public function store(Request $request)
     {
-         // Validasi input
-         $request->validate([
+        // Validasi input
+        $request->validate([
             'email' => 'required',
             'password' => 'required',
         ],[
@@ -103,39 +103,21 @@ class Login extends Controller
             'password' => $request->password,
         ];
 
-        if (Auth::attempt($infologin)) {
-            if(Auth::user()->role == 'Owner'){
+        $remember = $request->has('remember'); // Ambil nilai remember me dari request
+
+        if (Auth::attempt($infologin, $remember)) {
+            if (Auth::user()->role == 'Owner') {
                 return redirect('admin');
-            }else if(Auth::user()->role == 'Manager'){
+            } else if (Auth::user()->role == 'Manager') {
                 return redirect('admin/manager');
-            }
-            else if(Auth::user()->role == 'user'){
+            } else if (Auth::user()->role == 'user') {
                 return redirect('/');
             }
-        }
-        else{
+        } else {
             return redirect('')->withErrors('Username dan Password tidak sesuai')->withInput();
         }
-        // // Ambil data user dari database berdasarkan email
-        // $user = User::where('email', $request->email)->first();
-
-        // // Jika user ditemukan dan password cocok
-        // if ($user && password_verify($request->password, $user->password)) {
-        //     // Cek jika user memiliki role 'manager'
-        //     if ($user->role === 'user') {
-        //         // Redirect ke halaman admin jika role adalah 'manager'
-        //         return redirect('/admin');
-        //     }
-
-        //     // Redirect ke halaman dashboard default jika role bukan 'manager'
-        //     return redirect('/');
-        // }
-
-        // // Jika login gagal, kembali ke halaman login dengan pesan error
-        // return redirect('/login')->with('error', 'Email atau password salah.');
-
-
     }
+
 
     /**
      * Display the specified resource.

@@ -9,6 +9,20 @@
                 </div>
                 <div class="card shadow-lg">
                     <div class="card-body p-5">
+                        @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+                    @if (session('success'))
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
+                    @endif  
                         <h1 class="fs-4 card-title fw-bold mb-4">Forgot Password</h1>
                         <form method="POST" class="needs-validation" novalidate="" autocomplete="off">
                             @csrf

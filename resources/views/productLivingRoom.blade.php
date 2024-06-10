@@ -25,6 +25,18 @@
         <!-- Category Toolbar-->
             <div class="d-flex justify-content-between items-center pt-5 pb-4 flex-column flex-lg-row">
                 <div>
+                    <div id="priceSlider" class="slider mt-3"></div>
+                    <form method="GET" action="{{ route('productRuangTamu') }}">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="priceRange" class="form-label">Price Range</label>
+                            <input type="text" id="priceRange" readonly class="form-control-plaintext">
+                            <input type="hidden" name="minPrice" id="minPriceInput" value="">
+                            <input type="hidden" name="maxPrice" id="maxPriceInput" value="">
+                            <div id="priceSlider"></div>
+                        </div>
+                        <button type="submit" class="btn btn-sm px-3 py-2 rounded btn-primary">Apply Filters</button>
+                    </form>
                     {{-- <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                           <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -103,4 +115,26 @@
 
 <!-- Theme JS -->
 <script src="./assets/js/theme.bundle.js"></script>
+<script>
+    $(document).ready(function() {
+        var minPrice = $("#minPriceInput").val();
+        var maxPrice = $("#maxPriceInput").val();
+        var maxProductPrice = {{ $maxProductPrice }}; // Ini adalah bagian yang menambahkan nilai maxProductPrice
+
+        $("#priceSlider").slider({
+            range: true,
+            min: 0,
+            max: maxProductPrice, // Gunakan nilai maxProductPrice sebagai nilai maksimum
+            values: [0, maxProductPrice],
+            slide: function(event, ui) {
+                $("#minPriceInput").val(ui.values[0]);
+                $("#maxPriceInput").val(ui.values[1]);
+                $("#priceRange").val("Rp " + ui.values[0] + " - Rp " + ui.values[1]);
+            }
+        });
+        $("#priceRange").val("Rp " + $("#priceSlider").slider("values", 0) +
+            " - Rp " + $("#priceSlider").slider("values", 1));
+    });
+</script>
+
 @endsection

@@ -44,7 +44,7 @@
                               <div class="col-12">
                                 <div class="form-group">
                                   <label for="phone" class="form-label">Telp</label>
-                                  <input type="tel" class="form-control" id="phone" name="phone" placeholder="Nomor telepon Anda">
+                                  <input type="tel" class="form-control" id="phone" name="phone" placeholder="Nomor telepon Anda" value="{{ old('phone') }}" required="" >
                                 </div>
 
 
@@ -63,7 +63,7 @@
                               <div class="col-md-12">
                                 <div class="form-group">
                                   <label for="country" class="form-label">Provinsi</label>
-                                  <select class="form-select" id="country" name="province" required="">
+                                  <select class="form-select" id="country" name="province" value="{{ old('province') }}" required="">
                                     <option value="">Please Select Provinsi</option>
                                     @foreach ($provinsi as $prov)
                                     <option value="{{ $prov['province_id'] }}">{{ $prov['province'] }}</option>
@@ -76,7 +76,7 @@
                               <div class="col-md-12">
                                 <div class="form-group">
                                   <label for="state" class="form-label">Kota</label>
-                                  <select class="form-select" id="state"  name="state"  required="">
+                                  <select class="form-select" id="state"  name="state" value="{{ old('state') }}"  required="">
                                     <option value="">Please Select City...</option>
                                     @foreach ($cities as $city)
                                     <option value="{{ $city['city_id'] }}">{{ $city['city_name'] }}</option>
@@ -89,7 +89,7 @@
                                  <div class="col-12">
                                     <div class="form-group">
                                       <label for="address" class="form-label">Alamat</label>
-                                      <input type="text" class="form-control" id="address" name="address" placeholder="Jalan Pluto No 912 " required="">
+                                      <input type="text" class="form-control" id="address" name="address" placeholder="Jalan Pluto No 912 " value="{{ old('address') }}" required="">
                                     </div>
                                   </div>
 
@@ -97,7 +97,7 @@
                               <div class="col-md-6">
                                 <div class="form-group">
                                   <label for="zip" class="form-label">Kode Pos</label>
-                                  <input type="text" class="form-control" name="zip" id="zip" placeholder="" required="">
+                                  <input type="text" class="form-control" name="zip" id="zip" placeholder="" value="{{ old('zip') }}" required="">
                                 </div>
                               </div>
                             </div>

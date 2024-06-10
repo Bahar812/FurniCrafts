@@ -11,14 +11,19 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\HistoryController;
 use App\Http\Controllers\ShippingController;
 use App\Http\Controllers\TransactionAdminController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\WishlistController;
 
 // Route::get('/',  [HomeController::class, 'index'])->name('login');
 
+Route::get('/wishlist', [WishlistController::class, 'index'])->name('wishlist.index');
+Route::post('/wishlist/{productId}', [WishlistController::class, 'store'])->name('wishlist.add');
+Route::get('/wishlist/destroy/{id}', [WishlistController::class, 'destroy'])->name('wishlist.destroy');
 
 Route::get('/admin', [AdminController::class, 'index'])->middleware(['auth', 'admin']);
 Route::get('/admin/manager', [AdminController::class, 'manager'])->middleware(['auth', 'manager']);
@@ -54,6 +59,7 @@ Route::get('/reset-password/{token}/{email}', function ($token, $email) {
 Route::post('/reset-password', [Login::class, 'resetPassword'])->name('password.update');
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/history', [HistoryController::class, 'loadAllHistory']);
 
 
 Route::get('/users', [UserController::class, 'loadAllUsers']);
@@ -77,10 +83,10 @@ Route::get('/deleteProduct/{id}', [ProductController::class, 'deleteProduct']);
 Route::get('/editProduct/{id}', [ProductController::class, 'loadEditForm']);
 Route::post('/edit/product', [ProductController::class, 'EditProduct'])->name('updateProduct');
 
-Route::get('/productRuangKerja', [CatalogController::class, 'loadCatalogOffice']);
-Route::get('/productRuangDapur', [CatalogController::class, 'loadKitchen']);
-Route::get('/productRuangTamu', [CatalogController::class, 'loadLivingRoom']);
-Route::get('/productRuangTidur', [CatalogController::class, 'loadBedroom']);
+Route::get('/productRuangKerja', [CatalogController::class, 'loadCatalogOffice'])->name('productRuangKerja');
+Route::get('/productRuangDapur', [CatalogController::class, 'loadKitchen'])->name('productRuangDapur');
+Route::get('/productRuangTamu', [CatalogController::class, 'loadLivingRoom'])->name('productRuangTamu');
+Route::get('/productRuangTidur', [CatalogController::class, 'loadBedroom'])->name('productRuangTidur');
 
 Route::get('/productRuangDapur/{id}', [CatalogController::class, 'productDetails']);
 Route::get('/productRuangKerja/{id}', [CatalogController::class, 'productDetails']);

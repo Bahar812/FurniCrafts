@@ -60,14 +60,9 @@ class CheckoutController extends Controller
         }
 
         // Validasi data pengiriman
-        // $request->validate([
-        //     'alamat' => 'required|string',
-        //     'kota' => 'required|string',
-        //     'provinsi' => 'required|string',
-        //     'negara' => 'required|string',
-        //     'kode_pos' => 'required|string',
-        //     'nomor_telepon' => 'required|string',
-        // ]);
+        $request->validate([
+            'phone' => 'required|string|regex:/^[0-9]+$/',
+        ]);
 
         // $response_province = Http::withOptions([
         //     'verify' => 'C:\\xampp\\apache\\bin\\cacert.pem'

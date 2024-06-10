@@ -1,4 +1,6 @@
-@include("components.head")
+@extends("components.main")
+
+@section("body")
 
 <body class="">
 <section class="h-100">
@@ -116,3 +118,4 @@
     })();
 </script>
 </body>
+@endsection

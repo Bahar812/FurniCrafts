@@ -11,40 +11,97 @@ use App\Models\Cart;
 use App\Models\CartDetail;
 
 class CatalogController extends Controller
-{
-    public function loadCatalogOffice(){
-        $products = Product::where('CategoryID', '3')->paginate();
+{public function loadCatalogOffice(Request $request){
+    // Ambil harga maksimum dari produk paling mahal
+    $maxProductPrice = Product::where('CategoryID', '3')->max('Price');
+    // dd($maxProductPrice);
 
-        return view('product',compact('products'));
-    }
-    public function loadKitchen(){
+    // Ambil nilai minPrice dan maxPrice dari request
+    $minPrice = $request->input('minPrice');
+    $maxPrice = $request->input('maxPrice');
 
-        // $data['getCartNumber'] = $this->getCartNumber();
-        // $data['getCartDetails'] = $this->getCartDetails();
-        // $data['getCartTotal'] = $this->getCartTotal();
-        $products = Product::where('CategoryID', '2')->paginate();
+    // Query untuk mendapatkan produk berdasarkan kategori
+    $productsQuery = Product::where('CategoryID', '3');
 
-        return view('productKitchen',compact('products'));
-    }
-
-    public function loadLivingRoom(){
-
-        // $data['getCartNumber'] = $this->getCartNumber();
-        // $data['getCartDetails'] = $this->getCartDetails();
-        // $data['getCartTotal'] = $this->getCartTotal();
-        $products = Product::where('CategoryID', '1')->paginate();
-
-        return view('productLivingRoom',compact('products'));
+    // Filter berdasarkan rentang harga jika disediakan
+    if($minPrice && $maxPrice) {
+        $productsQuery->whereBetween('Price', [$minPrice, $maxPrice]);
     }
 
-    public function loadBedroom(){
+    // Ambil produk berdasarkan query yang telah difilter dan paginasi
+    $products = $productsQuery->paginate();
 
-        // $data['getCartNumber'] = $this->getCartNumber();
-        // $data['getCartDetails'] = $this->getCartDetails();
-        // $data['getCartTotal'] = $this->getCartTotal();
-        $products = Product::where('CategoryID', '4')->paginate();
+    // Kirimkan data produk dan harga maksimum ke view
+    return view('product', compact('products', 'maxProductPrice'));
+}
 
-        return view('productBedroom',compact('products'));
+    public function loadKitchen(Request $request){
+       // Ambil harga maksimum dari produk paling mahal
+    $maxProductPrice = Product::where('CategoryID', '2')->max('Price');
+    // dd($maxProductPrice);
+
+    // Ambil nilai minPrice dan maxPrice dari request
+    $minPrice = $request->input('minPrice');
+    $maxPrice = $request->input('maxPrice');
+
+    // Query untuk mendapatkan produk berdasarkan kategori
+    $productsQuery = Product::where('CategoryID', '2');
+
+    // Filter berdasarkan rentang harga jika disediakan
+    if($minPrice && $maxPrice) {
+        $productsQuery->whereBetween('Price', [$minPrice, $maxPrice]);
+    }
+
+    // Ambil produk berdasarkan query yang telah difilter dan paginasi
+    $products = $productsQuery->paginate();
+
+    return view('productKitchen',compact('products', 'maxProductPrice'));
+    }
+
+    public function loadLivingRoom(Request $request){
+ // Ambil harga maksimum dari produk paling mahal
+ $maxProductPrice = Product::where('CategoryID', '1')->max('Price');
+ // dd($maxProductPrice);
+
+ // Ambil nilai minPrice dan maxPrice dari request
+ $minPrice = $request->input('minPrice');
+ $maxPrice = $request->input('maxPrice');
+
+ // Query untuk mendapatkan produk berdasarkan kategori
+ $productsQuery = Product::where('CategoryID', '1');
+
+ // Filter berdasarkan rentang harga jika disediakan
+ if($minPrice && $maxPrice) {
+     $productsQuery->whereBetween('Price', [$minPrice, $maxPrice]);
+ }
+
+ // Ambil produk berdasarkan query yang telah difilter dan paginasi
+ $products = $productsQuery->paginate();
+
+        return view('productLivingRoom',compact('products', 'maxProductPrice'));
+    }
+
+    public function loadBedroom(Request $request){
+
+       // Ambil harga maksimum dari produk paling mahal
+    $maxProductPrice = Product::where('CategoryID', '4')->max('Price');
+    // dd($maxProductPrice);
+
+    // Ambil nilai minPrice dan maxPrice dari request
+    $minPrice = $request->input('minPrice');
+    $maxPrice = $request->input('maxPrice');
+
+    // Query untuk mendapatkan produk berdasarkan kategori
+    $productsQuery = Product::where('CategoryID', '4');
+
+    // Filter berdasarkan rentang harga jika disediakan
+    if($minPrice && $maxPrice) {
+        $productsQuery->whereBetween('Price', [$minPrice, $maxPrice]);
+    }
+
+    // Ambil produk berdasarkan query yang telah difilter dan paginasi
+    $products = $productsQuery->paginate();
+        return view('productBedroom',compact('products', 'maxProductPrice'));
     }
 
     public function productDetails($id)

@@ -11,9 +11,8 @@
         <div class="container-fluid">
             <nav class="m-0" aria-label="breadcrumb">
                 <ol class="breadcrumb m-0">
-                  <li class="breadcrumb-item breadcrumb-light"><a href="#">Home</a></li>
-                  <li class="breadcrumb-item breadcrumb-light"><a href="#">Living Room</a></li>
-                  <li class="breadcrumb-item  breadcrumb-light active" aria-current="page">Chair</li>
+                  <li class="breadcrumb-item breadcrumb-light"><a href="#">Detail Product</a></li>
+
                 </ol>
             </nav>            </div>
     </div>
@@ -55,7 +54,7 @@
                 <div class="sticky-top top-5">
                     <div class="pb-3" data-aos="fade-in">
                         <div class="d-flex align-items-center mb-3">
-                            <p class="small fw-bolder text-uppercase tracking-wider text-muted m-0 me-4">Khaki</p>
+                            <p class="small fw-bolder text-uppercase tracking-wider text-muted m-0 me-4">Product</p>
                             <div class="d-flex justify-content-start align-items-center disable-child-pointer cursor-pointer"
                             data-pixr-scrollto
                             data-target=".reviews">
@@ -82,6 +81,12 @@
                             </div>
 
                             <button type="submit" class="btn btn-dark w-100 mt-4 mb-0 hover-lift-sm hover-boxshadow">Add To Cart</button>
+                        </form>
+                        <form method="POST" action="{{ route('wishlist.add', $product->ItemId) }}" class="mt-3">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-secondary w-100 mt-4 mb-0 hover-lift-sm hover-boxshadow">
+                                <i class="ri-heart-line me-2"></i> Add to Wishlist
+                            </button>
                         </form>
 
                         {{-- <button href="{{ route('cart.add') }}" class="btn btn-dark w-100 mt-4 mb-0 hover-lift-sm hover-boxshadow">Add To Cart</button> --}}
@@ -254,13 +259,13 @@
             <!-- / Related Products-->
 
                 <!-- Review Pagination-->
-                <div class="d-flex flex-column f-w-44 mx-auto my-5 text-center">
+                {{-- <div class="d-flex flex-column f-w-44 mx-auto my-5 text-center">
                     <small class="text-muted">Showing 6 of 105 reviews</small>
                     <div class="progress f-h-1 mt-3">
                         <div class="progress-bar bg-dark" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                     <a href="#" class="btn btn-outline-dark btn-sm mt-5 align-self-center py-3 px-4 border-2">Load More</a>
-                </div><!-- / Review Pagination-->                </div>
+                </div><!-- / Review Pagination-->                </div> --}}
             <!-- / Reviews-->
         </div>
 

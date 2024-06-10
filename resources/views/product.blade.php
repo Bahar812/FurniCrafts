@@ -21,10 +21,23 @@
     </div>
     <!-- Category Top Banner -->
 
+
     <div class="container-fluid" data-aos="fade-in">
         <!-- Category Toolbar-->
             <div class="d-flex justify-content-between items-center pt-5 pb-4 flex-column flex-lg-row">
                 <div>
+                    <div id="priceSlider" class="slider mt-3"></div>
+    <form method="GET" action="{{ route('productRuangKerja') }}">
+        @csrf
+        <div class="mb-3">
+            <label for="priceRange" class="form-label">Price Range</label>
+            <input type="text" id="priceRange" readonly class="form-control-plaintext">
+            <input type="hidden" name="minPrice" id="minPriceInput" value="">
+            <input type="hidden" name="maxPrice" id="maxPriceInput" value="">
+            <div id="priceSlider"></div>
+        </div>
+        <button type="submit" class="btn btn-sm px-3 py-2 rounded btn-primary">Apply Filters</button>
+    </form>
                     {{-- <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
                           <li class="breadcrumb-item"><a href="#">Home</a></li>
@@ -82,7 +95,14 @@
                         <div class="card-badges">
                                 <span class="badge badge-card"><span class="f-w-2 f-h-2 bg-success rounded-circle d-block me-1"></span> New In</span>
                         </div>
-                        <span class="position-absolute top-0 end-0 p-2 z-index-20 text-muted"><i class="ri-heart-line"></i></span>
+                        <span class="position-absolute top-0 end-0 p-2 z-index-20 text-muted">
+                            <form method="POST" action="{{ route('wishlist.add', $product->ItemId) }}">
+                                @csrf
+                                <button type="submit" class="btn btn-link p-0 m-0 text-decoration-none text-muted">
+                                    <i class="ri-heart-line"></i>
+                                </button>
+                            </form>
+                        </span>
                         <picture class="position-relative overflow-hidden d-block bg-light">
                             <img class="w-100 img-fluid position-relative z-index-10" title="" src="{{ $product->Img_Detail_1 }}" alt="">
                         </picture>
@@ -94,9 +114,19 @@
                         <a class="text-decoration-none link-cover" href="/productRuangKerja/{{ $product->ItemId }}">{{ $product->Nama_Product }}</a>
                                 <p class="mt-2 mb-0 small">Rp {{ number_format($product->Price, 2, ',', '.') }}</p>
                     </div>
+
                 </div>
                 <!--/ Card Product-->
+                {{-- <span class="position-absolute top-0 end-0 p-2 z-index-20 text-muted">
+                    <form method="POST" action="{{ route('wishlist.add', $product->ItemId) }}">
+                        @csrf
+                        <button type="submit" class="btn btn-link p-0 m-0 text-decoration-none text-muted">
+                            <i class="ri-heart-line"></i>
+                        </button>
+                    </form>
+                </span> --}}
             </div>
+
             @endforeach
 
         </div>
@@ -122,6 +152,27 @@
 
 <!-- Theme JS -->
 <script src="./assets/js/theme.bundle.js"></script>
+<script>
+    $(document).ready(function() {
+        var minPrice = $("#minPriceInput").val();
+        var maxPrice = $("#maxPriceInput").val();
+        var maxProductPrice = {{ $maxProductPrice }}; // Ini adalah bagian yang menambahkan nilai maxProductPrice
+
+        $("#priceSlider").slider({
+            range: true,
+            min: 0,
+            max: maxProductPrice, // Gunakan nilai maxProductPrice sebagai nilai maksimum
+            values: [0, maxProductPrice],
+            slide: function(event, ui) {
+                $("#minPriceInput").val(ui.values[0]);
+                $("#maxPriceInput").val(ui.values[1]);
+                $("#priceRange").val("Rp " + ui.values[0] + " - Rp " + ui.values[1]);
+            }
+        });
+        $("#priceRange").val("Rp " + $("#priceSlider").slider("values", 0) +
+            " - Rp " + $("#priceSlider").slider("values", 1));
+    });
+</script>
 
 
 @endsection
